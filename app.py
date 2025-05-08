@@ -184,4 +184,44 @@ for date, row in daily_wind.iterrows():
         st.warning(f"{date}: ⚠️ Moderate wind — suitable for experienced pilots.")
     else:
         st.error(f"{date}: ❌ Strong winds — caution advised, consider delaying flights.")
+# Precipitation-based safety evaluation for flying
+st.subheader("Rain and Snow Conditions (Flight Safety Evaluation)")
 
+# Define a function to evaluate the safety of flight based on rain and snow
+def get_precipitation_safety(rain, snow):
+    if rain > 3 or snow > 5:  # Heavy rain or heavy snow
+        return "⚠️ Not safe for flying! Heavy rain or snow."
+    elif rain > 1 or snow > 2:  # Moderate rain or snow
+        return "⚠️ Moderate rain or snow. Flight may be affected."
+    else:
+        return "✅ Weather is safe for flying. No significant rain or snow."
+
+# Loop through the forecast data and check for rain and snow
+precipitation_data = []
+for entry in weather_data["list"]:
+    date = datetime.fromtimestamp(entry["dt"]).date()
+    rain = entry.get("rain", {}).get("3h", 0)  # Precipitation in mm for the last 3 hours
+    snow = entry.get("snow", {}).get("3h", 0)  # Snow in mm for the last 3 hours
+    precipitation_data.append({
+        "date": date,
+        "rain": rain,
+        "snow": snow
+    })
+
+# Convert to DataFrame for easier visualization
+precipitation_df = pd.DataFrame(precipitation_data)
+
+# Display the precipitation forecast table
+st.subheader("Precipitation Data (Rain and Snow in mm)")
+st.write(precipitation_df)
+
+# Safety evaluation for each day's rain and snow conditions
+st.header("Safety Evaluation for Flying (Rain and Snow)")
+for entry in precipitation_data:
+    date = entry["date"]
+    rain = entry["rain"]
+    snow = entry["snow"]
+    
+    # Display a message for each day based on rain and snow
+    safety_message = get_precipitation_safety(rain, snow)
+    st.write(f"**{date}**: {safety_message}")
