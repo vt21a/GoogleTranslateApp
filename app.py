@@ -125,7 +125,7 @@ else:
 st.header("🛫 Aviation Weather Briefing")
 
 # Simulate basic ceiling/floor guidance based on wind and rain
-st.subheader("Wind Speed Summary (Avg by Day)")
+st.subheader("Maximum Wind Speeds by Day")
 wind_df = []
 
 for entry in weather_data["list"]:
@@ -138,9 +138,9 @@ for entry in weather_data["list"]:
 
 # Convert to DataFrame and group by day
 wind_df = pd.DataFrame(wind_df)
-daily_wind = wind_df.groupby("date").agg({"wind_speed": "mean"})
+daily_wind = wind_df.groupby("date").agg({"wind_speed": "max"})
 
-st.write("**Average Wind Speeds (m/s) by Date:**")
+st.write("**Peak Wind Gusts (m/s) — Highest Recorded Each Day:**")
 st.dataframe(daily_wind.style.format("{:.1f}"))
 
 # Add general guidance based on wind speeds
