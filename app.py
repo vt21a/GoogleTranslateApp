@@ -109,17 +109,41 @@ ax2.tick_params(axis="y", labelcolor='tab:blue')
 fig.tight_layout()  # Adjust layout for better readability
 st.pyplot(fig)
 
-# Air Pollution Data Section
+
+    # Air Pollution Data Section
 st.header("Air Pollution Data (Impact on Visibility)")
 
-if pollution_response.status_code == 200:
-    st.write(f"**PM2.5**: {pollution_data['list'][0]['components']['pm2_5']} µg/m³")
-    st.write(f"**PM10**: {pollution_data['list'][0]['components']['pm10']} µg/m³")
-    st.write(f"**NO2**: {pollution_data['list'][0]['components']['no2']} µg/m³")
-    st.write(f"**SO2**: {pollution_data['list'][0]['components']['so2']} µg/m³")
-    st.write(f"**Ozone**: {pollution_data['list'][0]['components']['o3']} µg/m³")
+# Air pollution components
+pm2_5 = pollution_data['list'][0]['components']['pm2_5']
+pm10 = pollution_data['list'][0]['components']['pm10']
+no2 = pollution_data['list'][0]['components']['no2']
+so2 = pollution_data['list'][0]['components']['so2']
+ozone = pollution_data['list'][0]['components']['o3']
+
+# Display the pollution data
+st.write(f"**PM2.5**: {pm2_5} µg/m³")
+st.write(f"**PM10**: {pm10} µg/m³")
+st.write(f"**NO2**: {no2} µg/m³")
+st.write(f"**SO2**: {so2} µg/m³")
+st.write(f"**Ozone**: {ozone} µg/m³")
+
+# Define the safety thresholds
+safe_pm2_5 = 35  # µg/m³ - above this value, expect visibility issues (fog, haze)
+safe_pm10 = 50    # µg/m³ - above this value, poor visibility
+safe_ozone = 100  # µg/m³ - above this is dangerous for breathing, affects visibility
+
+# Determine visibility and air quality impact
+if pm2_5 > safe_pm2_5 or pm10 > safe_pm10 or ozone > safe_ozone:
+    st.warning("⚠️ **Visibility may be reduced!** Possible fog or haze, not ideal for flight.")
 else:
-    st.error("Failed to retrieve air pollution data.")
+    st.success("✅ **Air quality is good!** Visibility is clear, safe for flight.")
+
+# Additional notes on weather conditions like fog (мъгла)
+if pm2_5 > safe_pm2_5 or pm10 > safe_pm10:
+    st.write("⚠️ **Potential hazard:** Reduced visibility due to haze or fog (мъгла) may affect flying conditions.")
+else:
+    st.write("🌤️ **Weather Update:** Visibility is good, with no fog (мъгла) expected.")
+#--------=-=-=--=-=---------------
 
 # Additional Aviation-Oriented Info Section
 st.header("🛫 Aviation Weather Briefing")
