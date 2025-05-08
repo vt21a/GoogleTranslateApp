@@ -132,17 +132,17 @@ if pollution_response.status_code == 200:
     safe_pm2_5 = 35  # µg/m³ - above this value, expect visibility issues (fog)
     safe_pm10 = 50    # µg/m³ - above this value, poor visibility
     safe_ozone = 100  # µg/m³ - above this is dangerous for breathing, affects visibility
- # Additional notes on weather conditions like fog (мъгла)
-    if pm2_5 > safe_pm2_5 or pm10 > safe_pm10:
-        st.write("⚠️ **Potential hazard:** Reduced visibility due to haze or fog (мъгла) may affect flying conditions.")
-    else:
-        st.write("🌤️ **Weather Update:** Visibility is good, with no fog expected.
+ 
     # Determine visibility and air quality impact
     if pm2_5 > safe_pm2_5 or pm10 > safe_pm10 or ozone > safe_ozone:
         st.warning("⚠️ **Visibility may be reduced!** Possible fog or haze, not ideal for flight.")
     else:
         st.success("✅ **Air quality is good!** Visibility is clear, safe for flight.")
-
+# Additional notes on weather conditions like fog (мъгла)
+    if pm2_5 > safe_pm2_5 or pm10 > safe_pm10:
+        st.write("⚠️ **Potential hazard:** Reduced visibility due to haze or fog (мъгла) may affect flying conditions.")
+    else:
+        st.write("🌤️ **Weather Update:** Visibility is good, with no fog expected.
    ")
 
 else:
