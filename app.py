@@ -139,14 +139,15 @@ if pollution_response.status_code == 200:
     else:
         st.success("✅ **Air quality is good!** Visibility is clear, safe for flight.")
 
-    # Additional notes on weather conditions like fog (мъгла)
-    if pm2_5 > safe_pm2_5 or pm10 > safe_pm10:
-        st.write("⚠️ **Potential hazard:** Reduced visibility due to haze or fog (мъгла) may affect flying conditions.")
+    # Fog Metric Based on Ozone Levels
+    if ozone > 60:
+        st.warning("⚠️ **Potential fog (мъгла) hazard:** Visibility could be affected due to high ozone levels.")
     else:
-        st.write("🌤️ **Weather Update:** Visibility is good, with no fog (мъгла) expected.")
+        st.write("✅ **Visibility is clear.** Ozone levels are within safe range for flight.")
 
 else:
     st.error("Failed to retrieve air pollution data.")
+
 
 
 #--------=-=-=--=-=---------------
