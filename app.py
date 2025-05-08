@@ -185,13 +185,3 @@ for date, row in daily_wind.iterrows():
     else:
         st.error(f"{date}: ❌ Strong winds — caution advised, consider delaying flights.")
 
-# Estimate a simple 'ceiling' report based on rain (heavy rain => low ceiling)
-st.subheader("Estimated Flight Ceiling Conditions (Based on Rainfall):")
-for index, row in weather_df.iterrows():
-    rain = row["rain"]
-    if rain == 0:
-        st.success(f"{index}: Clear skies or light clouds — high ceiling (>3000 ft).")
-    elif rain < 5:
-        st.warning(f"{index}: Light rain — moderate ceiling (~1500–3000 ft).")
-    else:
-        st.error(f"{index}: Heavy rain — low ceiling (<1000 ft), IFR conditions likely.")
